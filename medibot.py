@@ -10,7 +10,10 @@ from langchain_community.vectorstores import FAISS
 DB_FAISS_PATH="vectorstore/db_faiss"
 @st.cache_resource
 def get_vectorstore():
-    embedding_model = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2', model_kwargs={"device": "cpu"})
+    embedding_model = HuggingFaceEmbeddings(
+    model_name='sentence-transformers/all-MiniLM-L6-v2',
+    model_kwargs={"device": "cpu"}  # <-- this line is important
+)
 
 
 
@@ -23,11 +26,12 @@ def set_custom_prompt(custom_prompt_template):
 
 def load_llm(huggingface_repo_id,HF_TOKEN):
     llm = HuggingFaceEndpoint(
-        repo_id=huggingface_repo_id,
-        temperature=0.5,
-        huggingfacehub_api_token=HF_TOKEN,  # pass token here
-    )
-    return llm
+    repo_id=huggingface_repo_id,
+    temperature=0.5,
+    huggingfacehub_api_token=HF_TOKEN,
+    model_kwargs={"device": "cpu"}  # <-- this forces CPU instead of trying GPU
+)
+
 
 
 def main():
