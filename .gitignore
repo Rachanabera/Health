@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+.env
+vectorstore/db_faiss/index.lock
